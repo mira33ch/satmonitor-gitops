@@ -25,9 +25,6 @@ spec:
               value: "192.168.1.39"
             - name: NFS_PATH
               value: "/exports/k3s"
-          args:
-            - "-provisioner-name=$(PROVISIONER_NAME)"
-            - "-leader-election"
           volumeMounts:
             - name: nfs-root
               mountPath: /persistentvolumes
