@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  namespace: nfs-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PROVISIONER_NAME
+              value: satmonitor.io/nfs-client
+            - name: NFS_SERVER
+              value: "192.168.1.39"
+            - name: NFS_PATH
+              value: "/exports/k3s"
+          args:
+            - "-provisioner-name=$(PROVISIONER_NAME)"
+            - "-leader-election"
+          volumeMounts:
+            - name: nfs-root
+              mountPath: /persistentvolumes
+      volumes:
+        - name: nfs-root
+          nfs:
+            server: "192.168.1.39"
+            path: "/exports/k3s"
