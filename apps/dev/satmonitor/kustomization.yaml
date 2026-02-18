@@ -5,10 +5,6 @@ namespace: satmonitor-dev
 
 resources:
   - namespace.yaml
-  - discovery/
-  - backend-login/
-  - gateway/
-  - frontend/
   - ingress.yaml
 
 # Jenkins will update ONLY the newTag fields below
