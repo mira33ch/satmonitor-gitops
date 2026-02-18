@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: satmonitor-dev
+
+resources:
+  - namespace.yaml
+  - discovery/
+  - backend-login/
+  - gateway/
+  - frontend/
+  - ingress.yaml
+
+# Jenkins will update ONLY the newTag fields below
+images:
+  - name: mariem360/satmonitor-discovery
+    newTag: dev
+  - name: mariem360/satmonitor-backend-login
+    newTag: dev
+  - name: mariem360/satmonitor-gateway
+    newTag: dev
+  - name: mariem360/satmonitor-frontend
+    newTag: dev
