@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: satmonitor-gateway
+  labels:
+    app.kubernetes.io/name: satmonitor-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: satmonitor-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: satmonitor-gateway
+    spec:
+      containers:
+        - name: gateway
+          image: mariem360/satmonitor-gateway:dev
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: DISCOVERY_URL
+              value: "http://satmonitor-discovery:8761"
+            - name: KEYCLOAK_ISSUER
+              value: "http://satmonitor.local/keycloak/realms/satmonitor"

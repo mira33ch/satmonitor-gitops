@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: satmonitor-discovery
+  labels:
+    app.kubernetes.io/name: satmonitor-discovery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: satmonitor-discovery
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: satmonitor-discovery
+    spec:
+      containers:
+        - name: discovery
+          image: mariem360/satmonitor-discovery:dev
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8761
+          env:
+            - name: SERVER_PORT
+              value: "8761"

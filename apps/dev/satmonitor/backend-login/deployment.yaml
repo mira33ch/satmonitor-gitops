@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: satmonitor-backend-login
+  labels:
+    app.kubernetes.io/name: satmonitor-backend-login
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: satmonitor-backend-login
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: satmonitor-backend-login
+    spec:
+      containers:
+        - name: backend-login
+          image: mariem360/satmonitor-backend-login:dev
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            # Later we’ll wire these to your discovery/keycloak properly
+            - name: DISCOVERY_URL
+              value: "http://satmonitor-discovery:8761"
+            - name: KEYCLOAK_ISSUER
+              value: "http://satmonitor.local/keycloak/realms/satmonitor"

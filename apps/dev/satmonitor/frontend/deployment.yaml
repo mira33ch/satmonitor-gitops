@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: satmonitor-frontend
+  labels:
+    app.kubernetes.io/name: satmonitor-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: satmonitor-frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: satmonitor-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: mariem360/satmonitor-frontend:dev
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            # Later you can use runtime config (configmap) if needed
+            - name: API_BASE_URL
+              value: "http://satmonitor.local/api"
