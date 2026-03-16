@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: satmonitor-postgres
+spec:
+  selector:
+    app: satmonitor-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
