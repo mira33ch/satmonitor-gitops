@@ -9,6 +9,7 @@ resources:
   - backend-login/
   - gateway/
   - frontend/
+  - postgres/   
   - ingress.yaml
 
 # Jenkins will update ONLY the newTag fields below
