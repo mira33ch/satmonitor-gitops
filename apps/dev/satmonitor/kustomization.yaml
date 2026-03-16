@@ -9,15 +9,16 @@ resources:
   - backend-login/
   - gateway/
   - frontend/
+  - postgres/   
   - ingress.yaml
 
 # Jenkins will update ONLY the newTag fields below
 images:
   - name: mariem360/satmonitor-discovery
-    newTag: 4df3d96
+    newTag: 6cb0c1b
   - name: mariem360/satmonitor-backend-login
-    newTag: 4df3d96
+    newTag: 6cb0c1b
   - name: mariem360/satmonitor-gateway
-    newTag: 4df3d96
+    newTag: 6cb0c1b
   - name: mariem360/satmonitor-frontend
-    newTag: 4df3d96
+    newTag: 6cb0c1b
