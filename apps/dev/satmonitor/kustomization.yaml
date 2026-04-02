@@ -15,10 +15,10 @@ resources:
 # Jenkins will update ONLY the newTag fields below
 images:
   - name: mariem360/satmonitor-discovery
-    newTag: "9c7d51e"
+    newTag: "16e674c"
   - name: mariem360/satmonitor-backend-login
-    newTag: "9c7d51e"
+    newTag: "16e674c"
   - name: mariem360/satmonitor-gateway
-    newTag: "9c7d51e"
+    newTag: "16e674c"
   - name: mariem360/satmonitor-frontend
-    newTag: "9c7d51e"
+    newTag: "16e674c"
