@@ -24,12 +24,12 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "ng"
-             - name: EUREKA_CLIENT_ENABLED
-               value: "false"
-             - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
-               value: "false"
-             - name: EUREKA_CLIENT_FETCH_REGISTRY
-               value: "false"
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
+              value: "false"
+            - name: EUREKA_CLIENT_FETCH_REGISTRY
+              value: "false"
             - name: SERVER_PORT
               value: "8080"
             - name: KEYCLOAK_ISSUER
