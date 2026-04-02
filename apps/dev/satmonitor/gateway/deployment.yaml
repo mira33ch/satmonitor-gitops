@@ -24,7 +24,5 @@ spec:
           env:
             - name: SERVER_PORT
               value: "8080"
-            - name: DISCOVERY_URL
-              value: "http://satmonitor-discovery:8761"
             - name: KEYCLOAK_ISSUER
               value: "http://satmonitor.local/keycloak/realms/satmonitor"
