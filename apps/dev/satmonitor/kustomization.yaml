@@ -7,7 +7,6 @@ resources:
   - namespace.yaml
   - discovery/
   - backend-login/
-  - gateway/
   - frontend/
   - postgres/   
   - ingress.yaml
@@ -17,8 +16,6 @@ images:
   - name: mariem360/satmonitor-discovery
     newTag: "fac5123"
   - name: mariem360/satmonitor-backend-login
-    newTag: "fac5123"
-  - name: mariem360/satmonitor-gateway
     newTag: "fac5123"
   - name: mariem360/satmonitor-frontend
     newTag: "fac5123"
