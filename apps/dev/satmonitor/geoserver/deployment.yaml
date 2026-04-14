@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: satmonitor-geoserver
+  namespace: satmonitor-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: satmonitor-geoserver
+  template:
+    metadata:
+      labels:
+        app: satmonitor-geoserver
+    spec:
+      containers:
+        - name: geoserver
+          image: kartoza/geoserver
+          ports:
+            - containerPort: 8080

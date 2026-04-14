@@ -8,6 +8,7 @@ resources:
   - discovery/
   - backend-login/
   - frontend/
+  - geoserver/
   - postgres/   
   - ingress.yaml
 
@@ -18,4 +19,6 @@ images:
   - name: mariem360/satmonitor-backend-login
     newTag: "fac5123"
   - name: mariem360/satmonitor-frontend
+    newTag: "fac5123"
+  - name: mariem360/satmonitor-geoserver
     newTag: "fac5123"
