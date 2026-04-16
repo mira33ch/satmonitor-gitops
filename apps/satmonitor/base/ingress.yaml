@@ -39,3 +39,20 @@ spec:
                 name: satmonitor-geoserver
                 port:
                   number: 8080
+          # KEYCLOAK
+          - path: /keycloak
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080
+
+          # SONAR
+          - path: /sonar
+            pathType: Prefix
+            backend:
+              service:
+                name: sonarqube
+                port:
+                  number: 9000        
