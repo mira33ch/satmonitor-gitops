@@ -126,14 +126,12 @@ patchesJson6902:
 # ConfigMaps for prod environment
 configMapGenerator:
   - name: satmonitor-backend-config
-    behavior: merge
     literals:
       - keycloak_server_url=https://auth.satmonitor.example.com
       - spring_profiles_active=kubernetes,prod
       - logging_level_com_satmonitor=WARN
   
   - name: satmonitor-frontend-config
-    behavior: merge
     literals:
       - API_BASE_URL=https://app.satmonitor.example.com/api
 
@@ -147,14 +145,12 @@ configMapGenerator:
 # For now, use placeholder values and override at deployment time
 secretGenerator:
   - name: satmonitor-backend-secrets
-    behavior: merge
     literals:
       - keycloak_client_secret=PROD-CHANGE-ME-USE-VAULT
       - db_username=satmonitor_prod
       - db_password=PROD-CHANGE-ME-USE-VAULT
   
   - name: satmonitor-postgres-secret
-    behavior: merge
     literals:
       - POSTGRES_DB=satmonitor_db_prod
       - POSTGRES_USER=satmonitor_prod
