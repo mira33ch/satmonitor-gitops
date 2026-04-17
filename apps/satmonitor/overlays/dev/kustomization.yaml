@@ -152,3 +152,10 @@ secretGenerator:
       - POSTGRES_DB=satmonitor_db_dev
       - POSTGRES_USER=satmonitor_dev
       - POSTGRES_PASSWORD=dev-change-me-in-prod
+images:
+  - name: mariem360/satmonitor-backend-login
+    newTag: "latest"
+  - name: mariem360/satmonitor-frontend
+    newTag: "latest"
+  - name: mariem360/satmonitor-geoserver
+    newTag: "latest"
