@@ -11,11 +11,4 @@ resources:
   - postgres/   
   - ingress/
 
-# Jenkins will update ONLY the newTag fields below
-images:
-  - name: mariem360/satmonitor-backend-login
-    newTag: "fac5123"
-  - name: mariem360/satmonitor-frontend
-    newTag: "fac5123"
-  - name: mariem360/satmonitor-geoserver
-    newTag: "fac5123"
+
