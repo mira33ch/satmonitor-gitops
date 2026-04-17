@@ -1,46 +1,48 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+# Namespace
 namespace: satmonitor-dev
-commonLabels:
+
+# Reference base
+resources:
+  - ../../base
+
+# Labels (replaces deprecated commonLabels)
+labels:
   environment: dev
   app.kubernetes.io/part-of: satmonitor
-bases:
-- ../../base
-patchesJson6902:
+
+# Patches (replaces patchesJson6902)
+patches:
+
+  # --- Replicas (DEV: lightweight) ---
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-backend-login
     patch: |-
       - op: replace
         path: /spec/replicas
         value: 1
-  
+
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-frontend
     patch: |-
       - op: replace
         path: /spec/replicas
         value: 1
-  
+
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-geoserver
     patch: |-
       - op: replace
         path: /spec/replicas
         value: 1
-  
-  # DEV: Reduce resource limits (lightweight)
+
+  # --- Resources tuning (DEV) ---
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-backend-login
     patch: |-
@@ -56,10 +58,8 @@ patchesJson6902:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 512Mi
-  
+
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-frontend
     patch: |-
@@ -75,10 +75,8 @@ patchesJson6902:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 256Mi
-  
+
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-geoserver
     patch: |-
@@ -94,10 +92,8 @@ patchesJson6902:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 1Gi
-  
+
   - target:
-      group: apps
-      version: v1
       kind: Deployment
       name: satmonitor-postgres
     patch: |-
@@ -114,28 +110,11 @@ patchesJson6902:
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 256Mi
 
-# ConfigMaps for dev environment
-configMapGenerator:
-  - name: satmonitor-backend-config
-    literals:
-      - keycloak_server_url=http://keycloak.satmonitor-platform.svc.cluster.local:8080
-      - spring_profiles_active=kubernetes,dev
-      - logging_level_com_satmonitor=DEBUG
-  
-  - name: satmonitor-frontend-config
-    literals:
-      - API_BASE_URL=http://app.satmonitor.local/api
-
-# Secrets for dev (CHANGE IN PRODUCTION - use proper secret management)
-secretGenerator:
-  - name: satmonitor-backend-secrets
-    literals:
-      - keycloak_client_secret=dev-change-me-in-prod
-      - db_username=satmonitor_dev
-      - db_password=dev-change-me-in-prod
-  
-  - name: satmonitor-postgres-secret
-    literals:
-      - POSTGRES_DB=satmonitor_db_dev
-      - POSTGRES_USER=satmonitor_dev
-      - POSTGRES_PASSWORD=dev-change-me-in-prod
+# Images (UPDATED by Jenkins)
+images:
+  - name: mariem360/satmonitor-backend-login
+    newTag: "latest"
+  - name: mariem360/satmonitor-frontend
+    newTag: "latest"
+  - name: mariem360/satmonitor-geoserver
+    newTag: "latest"
