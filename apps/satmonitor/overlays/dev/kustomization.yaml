@@ -1,121 +1,61 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-# Namespace
 namespace: satmonitor-dev
-
-# Reference base
 resources:
-  - ../../base
-
-# Labels (replaces deprecated commonLabels)
+- ../../base
 labels:
-  - pairs:
-      environment: dev
-      app.kubernetes.io/part-of: satmonitor
-
-# Patches (replaces patchesJson6902)
+- pairs:
+    environment: dev
+    app.kubernetes.io/part-of: satmonitor
 patches:
-
-  # --- Replicas (DEV: lightweight) ---
-  - target:
-      kind: Deployment
-      name: satmonitor-backend-login
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 1
-
-  - target:
-      kind: Deployment
-      name: satmonitor-frontend
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 1
-
-  - target:
-      kind: Deployment
-      name: satmonitor-geoserver
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 1
-
-  # --- Resources tuning (DEV) ---
-  - target:
-      kind: Deployment
-      name: satmonitor-backend-login
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/cpu
-        value: 100m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: 256Mi
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 500m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: 512Mi
-
-  - target:
-      kind: Deployment
-      name: satmonitor-frontend
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/cpu
-        value: 50m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: 128Mi
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 250m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: 256Mi
-
-  - target:
-      kind: Deployment
-      name: satmonitor-geoserver
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/cpu
-        value: 200m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: 256Mi
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 1000m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: 1Gi
-
-  - target:
-      kind: Deployment
-      name: satmonitor-postgres
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/cpu
-        value: 50m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: 128Mi
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 250m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: 256Mi
-
-# Images (UPDATED by Jenkins)
+- target:
+    kind: Deployment
+    name: satmonitor-backend-login
+  patch: "- op: replace\n  path: /spec/replicas\n  value: 1"
+- target:
+    kind: Deployment
+    name: satmonitor-frontend
+  patch: "- op: replace\n  path: /spec/replicas\n  value: 1"
+- target:
+    kind: Deployment
+    name: satmonitor-geoserver
+  patch: "- op: replace\n  path: /spec/replicas\n  value: 1"
+- target:
+    kind: Deployment
+    name: satmonitor-backend-login
+  patch: "- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/cpu\n\
+    \  value: 100m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/memory\n\
+    \  value: 256Mi\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/cpu\n\
+    \  value: 500m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/memory\n\
+    \  value: 512Mi"
+- target:
+    kind: Deployment
+    name: satmonitor-frontend
+  patch: "- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/cpu\n\
+    \  value: 50m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/memory\n\
+    \  value: 128Mi\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/cpu\n\
+    \  value: 250m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/memory\n\
+    \  value: 256Mi"
+- target:
+    kind: Deployment
+    name: satmonitor-geoserver
+  patch: "- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/cpu\n\
+    \  value: 200m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/memory\n\
+    \  value: 256Mi\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/cpu\n\
+    \  value: 1000m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/memory\n\
+    \  value: 1Gi"
+- target:
+    kind: Deployment
+    name: satmonitor-postgres
+  patch: "- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/cpu\n\
+    \  value: 50m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/requests/memory\n\
+    \  value: 128Mi\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/cpu\n\
+    \  value: 250m\n- op: replace\n  path: /spec/template/spec/containers/0/resources/limits/memory\n\
+    \  value: 256Mi"
 images:
-  - name: mariem360/satmonitor-backend-login
-    newTag: "init"
-  - name: mariem360/satmonitor-frontend
-    newTag: "init"
-  - name: mariem360/satmonitor-geoserver
-    newTag: "init"
+- name: mariem360/satmonitor-backend-login
+  newTag: 51e4db8
+- name: mariem360/satmonitor-frontend
+  newTag: 51e4db8
+- name: mariem360/satmonitor-geoserver
+  newTag: 51e4db8
