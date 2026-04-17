@@ -114,8 +114,8 @@ patches:
 # Images (UPDATED by Jenkins)
 images:
   - name: mariem360/satmonitor-backend-login
-    newTag: "latest"
+    newTag: "init"
   - name: mariem360/satmonitor-frontend
-    newTag: "latest"
+    newTag: "init"
   - name: mariem360/satmonitor-geoserver
-    newTag: "latest"
+    newTag: "init"
