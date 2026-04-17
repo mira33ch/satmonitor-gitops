@@ -9,7 +9,7 @@ resources:
   - frontend/
   - geoserver/
   - postgres/   
-  - ingress.yaml
+  - ingress/
 
 # Jenkins will update ONLY the newTag fields below
 images:

@@ -1,0 +1,154 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Override namespace for dev environment
+namespace: satmonitor-dev
+
+# Add environment labels
+commonLabels:
+  environment: dev
+  app.kubernetes.io/part-of: satmonitor
+
+# Reference base configuration
+bases:
+  - ../../base
+
+# DEV: Reduce replicas to save resources
+patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-backend-login
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-frontend
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-geoserver
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  
+  # DEV: Reduce resource limits (lightweight)
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-backend-login
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 100m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 256Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 512Mi
+  
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-frontend
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 50m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 128Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 256Mi
+  
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-geoserver
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 200m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 256Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 1000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 1Gi
+  
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: satmonitor-postgres
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 50m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 128Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 256Mi
+
+# ConfigMaps for dev environment (optional, with default values)
+configMapGenerator:
+  - name: satmonitor-backend-config
+    behavior: merge
+    literals:
+      - keycloak_server_url=http://keycloak.satmonitor-platform.svc.cluster.local:8080
+      - spring_profiles_active=kubernetes,dev
+      - logging_level_com_satmonitor=DEBUG
+  
+  - name: satmonitor-frontend-config
+    behavior: merge
+    literals:
+      - API_BASE_URL=http://app.satmonitor.local/api
+
+# Secrets for dev (CHANGE IN PRODUCTION - use proper secret management)
+secretGenerator:
+  - name: satmonitor-backend-secrets
+    behavior: merge
+    literals:
+      - keycloak_client_secret=dev-change-me-in-prod
+      - db_username=satmonitor_dev
+      - db_password=dev-change-me-in-prod
+  
+  - name: satmonitor-postgres-secret
+    behavior: merge
+    literals:
+      - POSTGRES_DB=satmonitor_db_dev
+      - POSTGRES_USER=satmonitor_dev
+      - POSTGRES_PASSWORD=dev-change-me-in-prod

@@ -7,11 +7,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sonarqube
+      app.kubernetes.io/name: sonarqube
   template:
     metadata:
       labels:
-        app: sonarqube
+        app.kubernetes.io/name: sonarqube
+        app.kubernetes.io/part-of: satmonitor-platform
     spec:
       containers:
         - name: sonarqube

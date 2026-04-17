@@ -1,11 +1,19 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: satmonitor-backend-login
+  namespace: satmonitor-dev
   labels:
     app.kubernetes.io/name: satmonitor-backend-login
+    app.kubernetes.io/part-of: satmonitor
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: satmonitor-backend-login
@@ -13,19 +21,54 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: satmonitor-backend-login
+        app.kubernetes.io/part-of: satmonitor
     spec:
       containers:
         - name: backend-login
-          image: mariem360/satmonitor-backend-login:dev
-          imagePullPolicy: Always
+          image: mariem360/satmonitor-backend-login:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
+              protocol: TCP
+          
+          # Configuration from ConfigMap and Secrets
+          envFrom:
+            - configMapRef:
+                name: satmonitor-backend-config
+            - secretRef:
+                name: satmonitor-backend-secrets
+          
           env:
             - name: SERVER_PORT
               value: "8080"
-            # Later we’ll wire these to your discovery/keycloak properly
-            - name: DISCOVERY_URL
-              value: "http://satmonitor-discovery:8761"
-            - name: KEYCLOAK_ISSUER
-              value: "http://satmonitor.local/keycloak/realms/satmonitor"
+          
+          # Health checks - critical for Kubernetes to manage pod lifecycle
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          
+          # Resource limits - prevents pod eviction and cluster overload
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi

@@ -1,21 +1,33 @@
+---
+# Application Ingress - Routes ONLY application traffic
+# Platform services (keycloak, sonarqube) have their own Ingress resources
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: satmonitor-dev
+  name: satmonitor-app
   namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: satmonitor-ingress
+    app.kubernetes.io/part-of: satmonitor
   annotations:
     kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 
 spec:
   ingressClassName: traefik
 
+  # TLS configuration - enable when certificate is ready
+  tls:
+    - secretName: satmonitor-app-tls
+      hosts:
+        - app.satmonitor.local
+
   rules:
-    - host: satmonitor.local
+    - host: app.satmonitor.local
       http:
         paths:
-
-          #backend-login
-          - path: /api/v1/auth/
+          # Backend API - Authentication service
+          - path: /api/v1/auth
             pathType: Prefix
             backend:
               service:
@@ -23,15 +35,16 @@ spec:
                 port:
                   number: 8080
 
-          # Frontend
-          - path: /app/
+          # Frontend UI
+          - path: /app
             pathType: Prefix
             backend:
               service:
                 name: satmonitor-frontend
                 port:
                   number: 80
-          # Geoserver
+
+          # Geo-spatial service
           - path: /geoserver
             pathType: Prefix
             backend:
@@ -39,20 +52,3 @@ spec:
                 name: satmonitor-geoserver
                 port:
                   number: 8080
-          # KEYCLOAK
-          - path: /keycloak
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak
-                port:
-                  number: 8080
-
-          # SONAR
-          - path: /sonar
-            pathType: Prefix
-            backend:
-              service:
-                name: sonarqube
-                port:
-                  number: 9000        

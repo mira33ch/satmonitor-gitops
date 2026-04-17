@@ -1,0 +1,67 @@
+---
+# This is the SINGLE centralized ingress for all application traffic
+# All app routes managed through this one resource
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: satmonitor-app
+  namespace: satmonitor-app
+  labels:
+    app.kubernetes.io/name: satmonitor-app-ingress
+    app.kubernetes.io/part-of: satmonitor
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    # For HTTPS (when enabled):
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.tls.certresolver: "letsencrypt"
+
+spec:
+  ingressClassName: traefik
+  
+  # TLS configuration (uncomment when certificates are ready)
+  # tls:
+  #   - secretName: satmonitor-tls
+  #     hosts:
+  #       - satmonitor.example.com
+  
+  rules:
+    # Single host, multiple paths (cleaner than multiple ingress resources)
+    - host: satmonitor.example.com  # Use variable in overlays: satmonitor.dev.example.com
+      http:
+        paths:
+          # Backend authentication API
+          - path: /api/v1/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: satmonitor-backend-login
+                port:
+                  number: 8080
+
+          # Frontend UI
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: satmonitor-frontend
+                port:
+                  number: 80
+
+          # Geoserver mapping service
+          - path: /geoserver
+            pathType: Prefix
+            backend:
+              service:
+                name: satmonitor-geoserver
+                port:
+                  number: 8080
+
+          # Redirect /api root to backend (optional)
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: satmonitor-backend-login
+                port:
+                  number: 8080

@@ -1,53 +1,181 @@
+---
+# Production-ready Keycloak deployment with HA, monitoring, and security
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: keycloak
   namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: keycloak
+    app.kubernetes.io/part-of: satmonitor-platform
+    version: "26.0.7"
 spec:
-  replicas: 1
+  replicas: 2  # HA for production
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  
   selector:
     matchLabels:
-      app: keycloak
+      app.kubernetes.io/name: keycloak
+  
   template:
     metadata:
       labels:
-        app: keycloak
+        app.kubernetes.io/name: keycloak
+        app.kubernetes.io/part-of: satmonitor-platform
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9990"
+    
     spec:
+      # Affinity rules to avoid pod collocation
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - keycloak
+                topologyKey: kubernetes.io/hostname
+
+      serviceAccountName: keycloak
+      securityContext:
+        fsGroup: 1000
+      
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.0.7
-          args: ["start-dev", "--proxy-headers=xforwarded"]
+          imagePullPolicy: IfNotPresent
+          
+          args:
+            - "start"
+            - "--optimized"  # Production mode
+            - "--proxy=xforwarded"
+            - "--hostname-strict=false"
+            - "--db=postgres"
+            - "--db-pool-initial-size=10"
+            - "--db-pool-max-size=20"
+          
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9990
+              protocol: TCP
+          
           env:
-            - name: KC_HTTP_RELATIVE_PATH
-              value: "/keycloak"
-            - name: KEYCLOAK_ADMIN
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secrets
-                  key: KC_ADMIN_USER
-            - name: KEYCLOAK_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secrets
-                  key: KC_ADMIN_PASSWORD
-            - name: KC_DB
-              value: postgres
+            # Database connection
             - name: KC_DB_URL_HOST
-              value: keycloak-postgres
+              valueFrom:
+                configMapKeyRef:
+                  name: keycloak-config
+                  key: db_host
             - name: KC_DB_URL_DATABASE
               valueFrom:
-                secretKeyRef:
-                  name: keycloak-secrets
-                  key: POSTGRES_DB
+                configMapKeyRef:
+                  name: keycloak-config
+                  key: db_name
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: keycloak-secrets
-                  key: POSTGRES_USER
+                  key: db_username
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: keycloak-secrets
-                  key: POSTGRES_PASSWORD
+                  key: db_password
+            
+            # Admin credentials
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secrets
+                  key: admin_user
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secrets
+                  key: admin_password
+            
+            # Proxy settings
+            - name: KC_PROXY
+              value: "xforwarded"
+            - name: KC_HTTP_RELATIVE_PATH
+              value: "/"
+            
+            # Performance
+            - name: KC_LOG_LEVEL
+              value: "INFO"
+            - name: KC_METRICS_ENABLED
+              value: "true"
+          
+          # Probes for Kubernetes to understand readiness
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          
+          startupProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+              scheme: HTTP
+            failureThreshold: 30
+            periodSeconds: 2
+          
+          # Resource limits for stability
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          
+          volumeMounts:
+            - name: theme
+              mountPath: /opt/keycloak/themes/custom
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      
+      terminationGracePeriodSeconds: 60
+      
+      volumes:
+        - name: theme
+          configMap:
+            name: keycloak-theme
+            optional: true
+        - name: tmp
+          emptyDir: {}

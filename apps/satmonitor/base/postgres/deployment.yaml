@@ -1,27 +1,77 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: satmonitor-postgres
+  namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: satmonitor-postgres
+    app.kubernetes.io/part-of: satmonitor
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: satmonitor-postgres
+      app.kubernetes.io/name: satmonitor-postgres
   template:
     metadata:
       labels:
-        app: satmonitor-postgres
+        app.kubernetes.io/name: satmonitor-postgres
+        app.kubernetes.io/part-of: satmonitor
     spec:
       containers:
-      - name: postgres
-        image: postgres:15
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          value: satmonitor_db
-        - name: POSTGRES_USER
-          value: postgres
-        - name: POSTGRES_PASSWORD
-          value: postgres123
+        - name: postgres
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: postgresql
+              containerPort: 5432
+              protocol: TCP
+          
+          # Use Secret for database credentials
+          envFrom:
+            - secretRef:
+                name: satmonitor-postgres-secret
+          
+          # Health checks
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U $POSTGRES_USER
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U $POSTGRES_USER
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          
+          # Resource limits
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          
+          # Mount persistent volume for data
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: satmonitor-postgres-data
 

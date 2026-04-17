@@ -1,0 +1,35 @@
+---
+# ConfigMap for Keycloak configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config
+  namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: keycloak
+    app.kubernetes.io/part-of: satmonitor-platform
+data:
+  db_host: "keycloak-postgres.satmonitor-platform.svc.cluster.local"
+  db_name: "keycloak_db"
+---
+# ServiceAccount for Keycloak
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: keycloak
+  namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: keycloak
+    app.kubernetes.io/part-of: satmonitor-platform
+---
+# Pod Disruption Budget for high availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: keycloak-pdb
+  namespace: satmonitor-platform
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: keycloak

@@ -1,0 +1,32 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: keycloak
+    app.kubernetes.io/part-of: satmonitor-platform
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+
+spec:
+  ingressClassName: traefik
+
+  # TLS configuration - enable when certificate is ready
+  tls:
+    - secretName: satmonitor-keycloak-tls
+      hosts:
+        - auth.satmonitor.local
+
+  rules:
+    - host: auth.satmonitor.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080

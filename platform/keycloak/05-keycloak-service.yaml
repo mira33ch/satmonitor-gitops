@@ -3,11 +3,23 @@ kind: Service
 metadata:
   name: keycloak
   namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: keycloak
+    app.kubernetes.io/part-of: satmonitor-platform
 spec:
   type: ClusterIP
   selector:
-    app: keycloak
+    app.kubernetes.io/name: keycloak
   ports:
     - name: http
       port: 8080
       targetPort: 8080
+      protocol: TCP
+    - name: metrics
+      port: 9990
+      targetPort: 9990
+      protocol: TCP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800

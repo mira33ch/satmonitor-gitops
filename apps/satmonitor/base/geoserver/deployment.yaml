@@ -1,20 +1,63 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: satmonitor-geoserver
   namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: satmonitor-geoserver
+    app.kubernetes.io/part-of: satmonitor
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   selector:
     matchLabels:
-      app: satmonitor-geoserver
+      app.kubernetes.io/name: satmonitor-geoserver
   template:
     metadata:
       labels:
-        app: satmonitor-geoserver
+        app.kubernetes.io/name: satmonitor-geoserver
+        app.kubernetes.io/part-of: satmonitor
     spec:
       containers:
         - name: geoserver
-          image: kartoza/geoserver
+          image: kartoza/geoserver:latest
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          
+          # Health checks
+          livenessProbe:
+            httpGet:
+              path: /geoserver/web/
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /geoserver/web/
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          
+          # Resource limits
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi

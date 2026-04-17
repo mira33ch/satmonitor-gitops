@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: satmonitor-frontend-config
+  namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: satmonitor-frontend
+    app.kubernetes.io/part-of: satmonitor
+data:
+  # Frontend needs to know where to reach the backend API
+  API_BASE_URL: "http://app.satmonitor.local/api"

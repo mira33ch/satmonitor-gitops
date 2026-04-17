@@ -7,11 +7,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: keycloak-postgres
+      app.kubernetes.io/name: keycloak-postgres
   template:
     metadata:
       labels:
-        app: keycloak-postgres
+        app.kubernetes.io/name: keycloak-postgres
+        app.kubernetes.io/part-of: satmonitor-platform
     spec:
       containers:
         - name: postgres
