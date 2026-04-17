@@ -10,8 +10,9 @@ resources:
 
 # Labels (replaces deprecated commonLabels)
 labels:
-  environment: dev
-  app.kubernetes.io/part-of: satmonitor
+  - pairs:
+      environment: dev
+      app.kubernetes.io/part-of: satmonitor
 
 # Patches (replaces patchesJson6902)
 patches:
