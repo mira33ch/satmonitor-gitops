@@ -14,7 +14,7 @@ data:
   
   # Database
   SPRING_DATASOURCE_URL: "jdbc:postgresql://satmonitor-postgres.satmonitor-dev.svc.cluster.local:5432/satmonitor_db"
-  SPRING_JPA_HIBERNATE_DDL_AUTO: "validate"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
   
   # Application
   SPRING_PROFILES_ACTIVE: "kubernetes"
