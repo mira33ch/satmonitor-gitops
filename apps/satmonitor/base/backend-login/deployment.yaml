@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,66 +8,60 @@ metadata:
     app.kubernetes.io/part-of: satmonitor
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 1
+
   selector:
     matchLabels:
       app.kubernetes.io/name: satmonitor-backend-login
+
   template:
     metadata:
       labels:
         app.kubernetes.io/name: satmonitor-backend-login
         app.kubernetes.io/part-of: satmonitor
+
     spec:
       containers:
         - name: backend-login
-          image: mariem360/satmonitor-backend-login:latest
+          image: mariem360/satmonitor-backend-login:51e4db8
           imagePullPolicy: IfNotPresent
+
           ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          
-          # Configuration from ConfigMap and Secrets
+            - containerPort: 8080
+              name: http
+
           envFrom:
             - configMapRef:
                 name: satmonitor-backend-config
             - secretRef:
                 name: satmonitor-backend-secrets
-          
+
           env:
             - name: SERVER_PORT
               value: "8080"
-          
-          # Health checks - critical for Kubernetes to manage pod lifecycle
+
+          #  FIXED HEALTH PROBES (NO MORE 401)
           livenessProbe:
             httpGet:
-              path: /actuator/health/liveness
+              path: /actuator/health
               port: http
-              scheme: HTTP
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: 60
             timeoutSeconds: 5
+            periodSeconds: 10
             failureThreshold: 3
-          
+
           readinessProbe:
             httpGet:
-              path: /actuator/health/readiness
+              path: /actuator/health
               port: http
-              scheme: HTTP
-            initialDelaySeconds: 20
-            periodSeconds: 5
+            initialDelaySeconds: 40
             timeoutSeconds: 3
+            periodSeconds: 5
             failureThreshold: 3
-          
-          # Resource limits - prevents pod eviction and cluster overload
+
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
-              cpu: 1000m
-              memory: 1Gi
+              cpu: 500m
+              memory: 512Mi
