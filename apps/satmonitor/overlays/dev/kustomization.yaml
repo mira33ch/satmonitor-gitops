@@ -114,17 +114,7 @@ patchesJson6902:
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 256Mi
 
-# ConfigMaps for dev environment
-configMapGenerator:
-  - name: satmonitor-backend-config
-    literals:
-      - keycloak_server_url=http://keycloak.satmonitor-platform.svc.cluster.local:8080
-      - spring_profiles_active=kubernetes,dev
-      - logging_level_com_satmonitor=DEBUG
-  
-  - name: satmonitor-frontend-config
-    literals:
-      - API_BASE_URL=http://app.satmonitor.local/api
+
 
 # Secrets for dev (CHANGE IN PRODUCTION - use proper secret management)
 secretGenerator:
