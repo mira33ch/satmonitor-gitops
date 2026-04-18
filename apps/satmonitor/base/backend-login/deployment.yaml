@@ -55,7 +55,7 @@ spec:
               path: /actuator/health
               port: http
             initialDelaySeconds: 60
-            periodSeconds: 3
+            periodSeconds: 5
             timeoutSeconds: 3
 
           resources:
