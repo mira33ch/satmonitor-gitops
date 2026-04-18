@@ -46,19 +46,17 @@ spec:
             httpGet:
               path: /actuator/health
               port: http
-            initialDelaySeconds: 60
-            timeoutSeconds: 5
+            initialDelaySeconds: 90
             periodSeconds: 10
-            failureThreshold: 3
+            timeoutSeconds: 5
 
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: http
-            initialDelaySeconds: 40
+            initialDelaySeconds: 60
+            periodSeconds: 3
             timeoutSeconds: 3
-            periodSeconds: 5
-            failureThreshold: 3
 
           resources:
             requests:
