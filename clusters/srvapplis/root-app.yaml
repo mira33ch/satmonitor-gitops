@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: satmonitor-root
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: satmonitor
+  # Cascade delete — removing this app removes all child apps too
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/mira33ch/satmonitor-gitops.git
+    targetRevision: main
+    # Watches this directory — any Application manifest added here
+    # gets automatically created in ArgoCD (App of Apps pattern)
+    path: clusters/srvapplis/argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
