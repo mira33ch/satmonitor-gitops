@@ -22,7 +22,7 @@ spec:
             - until nc -z kafka.satmonitor-platform.svc.cluster.local 9092; do echo "waiting for kafka..."; sleep 5; done
       containers:
         - name: create-topics
-          image: bitnami/kafka:latest
+          image: bitnami/kafka:3.7.1
           command:
             - /bin/bash
             - -c
