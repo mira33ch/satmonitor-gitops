@@ -7,16 +7,21 @@ metadata:
     app.kubernetes.io/name: login-service
     app.kubernetes.io/part-of: satmonitor
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://satmonitor-postgres.satmonitor-dev.svc.cluster.local:5432/satmonitor_db"
+  # Datasource
+  DB_URL: "jdbc:postgresql://satmonitor-postgres.satmonitor-dev.svc.cluster.local:5432/satmonitor_db"
+
+  # Keycloak
   KEYCLOAK_SERVER_URL: "http://keycloak.satmonitor-platform.svc.cluster.local:8080"
   KEYCLOAK_REALM: "satmonitor"
   KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/satmonitor"
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/satmonitor/protocol/openid-connect/certs"
-  JWT_AUTH_CONVERTER_RESOURCE_ID: "login-service"
-  JWT_AUTH_CONVERTER_PRINCIPLE_ATTRIBUTE: "preferred_username"
-  SPRING_MAIL_HOST: "smtp.gmail.com"
-  SPRING_MAIL_PORT: "587"
-  APP_UPLOAD_DIR: "/app/uploads/avatars"
+
+  # Mail
+  MAIL_HOST: "smtp.gmail.com"
+  MAIL_PORT: "587"
+  MAIL_FROM: "change-me@gmail.com"
+
+  # File upload
+  UPLOAD_DIR: "/app/uploads/avatars"
+
+  # App
   APP_BASE_URL: "https://api.satmonitor.cloud"
-  APP_COOKIE_SECURE: "true"
-  APP_COOKIE_SAME_SITE: "Strict"
