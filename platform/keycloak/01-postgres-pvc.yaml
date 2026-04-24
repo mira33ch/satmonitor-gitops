@@ -9,8 +9,8 @@ metadata:
     app.kubernetes.io/part-of: satmonitor-platform
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
+    - ReadWriteMany
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 5Gi
