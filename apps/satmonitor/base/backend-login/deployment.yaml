@@ -35,16 +35,14 @@ spec:
             - secretRef:
                 name: login-service-secrets
           livenessProbe:
-            httpGet:
-              path: /actuator/health
+            tcpSocket:
               port: http
             initialDelaySeconds: 90
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
           readinessProbe:
-            httpGet:
-              path: /actuator/health
+            tcpSocket:
               port: http
             initialDelaySeconds: 60
             periodSeconds: 5
