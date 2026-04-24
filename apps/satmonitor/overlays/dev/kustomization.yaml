@@ -5,6 +5,9 @@ namespace: satmonitor-dev
 
 resources:
   - ../../base
+  - ../../base/backend-login
+  - ../../base/job-service
+  - ../../base/frontend
 
 labels:
   - pairs:
@@ -12,11 +15,17 @@ labels:
       app.kubernetes.io/part-of: satmonitor
 
 patches:
-
-  #  Only replicas (SAFE)
   - target:
       kind: Deployment
-      name: satmonitor-backend-login
+      name: login-service
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+
+  - target:
+      kind: Deployment
+      name: job-service
     patch: |-
       - op: replace
         path: /spec/replicas
@@ -30,20 +39,12 @@ patches:
         path: /spec/replicas
         value: 1
 
-  - target:
-      kind: Deployment
-      name: satmonitor-geoserver
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 1
-
 images:
-  - name: mariem360/satmonitor-backend-login
-    newTag: "51e4db8"
+  - name: mariem360/login-service
+    newTag: latest
 
-  - name: mariem360/satmonitor-frontend
-    newTag: "51e4db8"
+  - name: mariem360/job-service
+    newTag: latest
 
-  - name: mariem360/satmonitor-geoserver
-    newTag: "51e4db8"
+  - name: mariem360/frontend
+    newTag: latest

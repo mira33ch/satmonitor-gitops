@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: satmonitor-postgres-data
+  name: login-service-uploads
   namespace: satmonitor-dev
   labels:
-    app.kubernetes.io/name: satmonitor-postgres
+    app.kubernetes.io/name: login-service
     app.kubernetes.io/part-of: satmonitor
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: nfs-client
   resources:
     requests:
-      storage: 10Gi
+      storage: 5Gi

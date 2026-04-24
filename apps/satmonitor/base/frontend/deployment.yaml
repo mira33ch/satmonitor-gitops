@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,35 +24,27 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: mariem360/satmonitor-frontend:latest
-          imagePullPolicy: IfNotPresent
+          image: mariem360/frontend:latest
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
-          
-          # Load configuration from ConfigMap
           envFrom:
             - configMapRef:
                 name: satmonitor-frontend-config
-          
-          # Health checks
           livenessProbe:
             httpGet:
               path: /
               port: http
             initialDelaySeconds: 30
             periodSeconds: 10
-          
           readinessProbe:
             httpGet:
               path: /
               port: http
             initialDelaySeconds: 20
             periodSeconds: 5
-            
-          
-          # Resource limits
           resources:
             requests:
               cpu: 100m

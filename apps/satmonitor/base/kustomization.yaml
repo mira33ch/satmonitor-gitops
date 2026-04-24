@@ -3,12 +3,9 @@ kind: Kustomization
 
 namespace: satmonitor-dev
 
+# Shared infrastructure only — each service is its own ArgoCD Application
+# pointing directly to its component directory (backend-login/, job-service/, frontend/)
 resources:
   - namespace.yaml
-  - backend-login/
-  - frontend/
-  - geoserver/
-  - postgres/   
+  - postgres/
   - ingress/
-
-

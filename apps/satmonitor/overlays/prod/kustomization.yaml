@@ -1,58 +1,28 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Override namespace for prod environment
 namespace: satmonitor-prod
 
-# Add environment labels
 commonLabels:
   environment: prod
   app.kubernetes.io/part-of: satmonitor
 
-# Reference base configuration
-bases:
+resources:
   - ../../base
+  - ../../base/backend-login
+  - ../../base/job-service
+  - ../../base/frontend
 
-# PROD: Increase replicas for High Availability
 patchesJson6902:
   - target:
       group: apps
       version: v1
       kind: Deployment
-      name: satmonitor-backend-login
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
-  
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: satmonitor-frontend
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
-  
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: satmonitor-geoserver
+      name: login-service
     patch: |-
       - op: replace
         path: /spec/replicas
         value: 2
-  
-  # PROD: Increase resource limits (production workload)
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: satmonitor-backend-login
-    patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/cpu
         value: 500m
@@ -65,13 +35,38 @@ patchesJson6902:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 2Gi
-  
+
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: job-service
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 1Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 2Gi
+
   - target:
       group: apps
       version: v1
       kind: Deployment
       name: satmonitor-frontend
     patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/cpu
         value: 200m
@@ -84,26 +79,7 @@ patchesJson6902:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 1Gi
-  
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: satmonitor-geoserver
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/cpu
-        value: 1000m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: 1Gi
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 4000m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: 4Gi
-  
+
   - target:
       group: apps
       version: v1
@@ -122,36 +98,3 @@ patchesJson6902:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 2Gi
-
-# ConfigMaps for prod environment
-configMapGenerator:
-  - name: satmonitor-backend-config
-    literals:
-      - keycloak_server_url=https://auth.satmonitor.example.com
-      - spring_profiles_active=kubernetes,prod
-      - logging_level_com_satmonitor=WARN
-  
-  - name: satmonitor-frontend-config
-    literals:
-      - API_BASE_URL=https://app.satmonitor.example.com/api
-
-# ⚠️ IMPORTANT: Secrets should NOT be in Git in production
-# Use external secret management tools:
-# - Sealed Secrets (for GitOps)
-# - HashiCorp Vault (for centralized management)
-# - AWS Secrets Manager (cloud-native)
-# - External Secrets Operator (Kubernetes-native)
-# 
-# For now, use placeholder values and override at deployment time
-secretGenerator:
-  - name: satmonitor-backend-secrets
-    literals:
-      - keycloak_client_secret=PROD-CHANGE-ME-USE-VAULT
-      - db_username=satmonitor_prod
-      - db_password=PROD-CHANGE-ME-USE-VAULT
-  
-  - name: satmonitor-postgres-secret
-    literals:
-      - POSTGRES_DB=satmonitor_db_prod
-      - POSTGRES_USER=satmonitor_prod
-      - POSTGRES_PASSWORD=PROD-CHANGE-ME-USE-VAULT

@@ -1,0 +1,40 @@
+# Headless service required by StatefulSet for pod DNS (kafka-0.kafka-headless.satmonitor-platform...)
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-headless
+  namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/part-of: satmonitor-platform
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: kafka
+  ports:
+    - name: client
+      port: 9092
+      targetPort: client
+    - name: controller
+      port: 9093
+      targetPort: controller
+---
+# ClusterIP service — this is what job-service uses: kafka.satmonitor-platform.svc.cluster.local:9092
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  namespace: satmonitor-platform
+  labels:
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/part-of: satmonitor-platform
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: kafka
+  ports:
+    - name: client
+      port: 9092
+      targetPort: client
+      protocol: TCP

@@ -1,4 +1,3 @@
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -13,14 +12,13 @@ metadata:
 spec:
   ingressClassName: traefik
 
-  # TLS configuration - enable when certificate is ready
   tls:
     - secretName: satmonitor-keycloak-tls
       hosts:
-        - auth.satmonitor.local
+        - auth.satmonitor.cloud
 
   rules:
-    - host: auth.satmonitor.local
+    - host: auth.satmonitor.cloud
       http:
         paths:
           - path: /

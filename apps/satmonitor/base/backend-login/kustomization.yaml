@@ -1,8 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: satmonitor-dev
+
 resources:
   - configmap.yaml
   - secrets.yaml
   - deployment.yaml
   - service.yaml
+  - uploads-pvc.yaml
+
+images:
+  - name: mariem360/login-service
+    newTag: latest

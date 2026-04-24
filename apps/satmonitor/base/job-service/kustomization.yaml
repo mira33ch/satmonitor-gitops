@@ -5,9 +5,10 @@ namespace: satmonitor-dev
 
 resources:
   - configmap.yaml
+  - secrets.yaml
   - deployment.yaml
   - service.yaml
 
 images:
-  - name: mariem360/frontend
+  - name: mariem360/job-service
     newTag: latest
