@@ -8,3 +8,4 @@ resources:
   - frontend.yaml
   - keycloak.yaml
   - kafka.yaml
+  - sonarqube.yaml
