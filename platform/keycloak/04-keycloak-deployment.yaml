@@ -56,12 +56,8 @@ spec:
           
           args:
             - "start"
-            - "--optimized"
             - "--proxy-headers=xforwarded"
             - "--hostname-strict=false"
-            - "--db=postgres"
-            - "--db-pool-initial-size=10"
-            - "--db-pool-max-size=20"
           
           ports:
             - name: http
