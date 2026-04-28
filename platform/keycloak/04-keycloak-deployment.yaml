@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/part-of: satmonitor-platform
     version: "26.0.7"
 spec:
-  replicas: 2  # HA for production
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -104,6 +104,8 @@ spec:
                   key: admin_password
             
             # Proxy settings
+            - name: KC_DB
+              value: "postgres"
             - name: KC_PROXY_HEADERS
               value: "xforwarded"
             - name: KC_HTTP_RELATIVE_PATH
