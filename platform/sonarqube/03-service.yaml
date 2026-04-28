@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: sonarqube
+    app.kubernetes.io/name: sonarqube
   ports:
     - name: http
       port: 9000
