@@ -58,6 +58,7 @@ spec:
             - "start"
             - "--proxy-headers=xforwarded"
             - "--hostname-strict=false"
+            - "--http-enabled=true"
           
           ports:
             - name: http
