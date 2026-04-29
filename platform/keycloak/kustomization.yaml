@@ -10,3 +10,4 @@ resources:
   - 05-keycloak-service.yaml
   - 06-keycloak-rbac.yaml
   - 07-keycloak-ingress.yaml
+  - 08-realm-import.yaml

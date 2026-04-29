@@ -12,13 +12,13 @@ data:
 
   # Keycloak
   KEYCLOAK_SERVER_URL: "http://keycloak.satmonitor-platform.svc.cluster.local:8080"
-  KEYCLOAK_REALM: "satmonitor"
-  KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/satmonitor"
+  KEYCLOAK_REALM: "microservices-realm"
+  KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/microservices-realm"
 
   # Mail
   MAIL_HOST: "smtp.gmail.com"
   MAIL_PORT: "587"
-  MAIL_FROM: "change-me@gmail.com"
+  MAIL_FROM: "stakwa336@gmail.com"
 
   # File upload
   UPLOAD_DIR: "/app/uploads/avatars"
