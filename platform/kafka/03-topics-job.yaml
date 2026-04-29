@@ -31,23 +31,23 @@ spec:
             - -c
             - |
               BOOTSTRAP=kafka.satmonitor-platform.svc.cluster.local:9092
-              kafka-topics.sh --bootstrap-server $BOOTSTRAP \
+              kafka-topics --bootstrap-server $BOOTSTRAP \
                 --create --if-not-exists \
                 --topic satmonitor-jobs \
                 --partitions 3 \
                 --replication-factor 1
 
-              kafka-topics.sh --bootstrap-server $BOOTSTRAP \
+              kafka-topics --bootstrap-server $BOOTSTRAP \
                 --create --if-not-exists \
                 --topic satmonitor-results \
                 --partitions 1 \
                 --replication-factor 1
 
-              kafka-topics.sh --bootstrap-server $BOOTSTRAP \
+              kafka-topics --bootstrap-server $BOOTSTRAP \
                 --create --if-not-exists \
                 --topic satmonitor-jobs.DLT \
                 --partitions 1 \
                 --replication-factor 1
 
               echo "All topics created."
-              kafka-topics.sh --bootstrap-server $BOOTSTRAP --list
+              kafka-topics --bootstrap-server $BOOTSTRAP --list
