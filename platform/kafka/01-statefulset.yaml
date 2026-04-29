@@ -18,6 +18,7 @@ spec:
         app.kubernetes.io/name: kafka
         app.kubernetes.io/part-of: satmonitor-platform
     spec:
+      enableServiceLinks: false
       containers:
         - name: kafka
           image: confluentinc/cp-kafka:7.6.0

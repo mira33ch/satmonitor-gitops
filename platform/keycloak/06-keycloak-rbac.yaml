@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/part-of: satmonitor-platform
 data:
   db_host: "keycloak-postgres.satmonitor-platform.svc.cluster.local"
-  db_name: "keycloak_db"
+  db_name: "keycloak"
 ---
 # ServiceAccount for Keycloak
 apiVersion: v1
