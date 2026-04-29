@@ -7,15 +7,10 @@ metadata:
     app.kubernetes.io/name: keycloak
     app.kubernetes.io/part-of: satmonitor-platform
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 
 spec:
   ingressClassName: traefik
-
-  tls:
-    - secretName: satmonitor-keycloak-tls
-      hosts:
-        - auth.satmonitor.cloud
 
   rules:
     - host: auth.satmonitor.cloud
