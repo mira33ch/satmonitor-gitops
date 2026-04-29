@@ -7,15 +7,10 @@ metadata:
     app.kubernetes.io/name: satmonitor-ingress
     app.kubernetes.io/part-of: satmonitor
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: satmonitor-dev-strip-login-prefix@kubernetescrd,satmonitor-dev-strip-job-prefix@kubernetescrd
 spec:
   ingressClassName: traefik
-
-  tls:
-    - secretName: satmonitor-app-tls
-      hosts:
-        - app.satmonitor.cloud
-        - api.satmonitor.cloud
 
   rules:
     # Frontend — app.satmonitor.cloud
@@ -30,11 +25,11 @@ spec:
                 port:
                   number: 80
 
-    # API gateway — api.satmonitor.cloud (path-based split)
+    # API — api.satmonitor.cloud (path-based split with prefix stripping)
     - host: api.satmonitor.cloud
       http:
         paths:
-          - path: /api/v1/auth
+          - path: /login-service
             pathType: Prefix
             backend:
               service:
@@ -42,7 +37,7 @@ spec:
                 port:
                   number: 8087
 
-          - path: /api/v1/jobs
+          - path: /job-service
             pathType: Prefix
             backend:
               service:

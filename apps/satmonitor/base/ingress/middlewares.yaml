@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-login-prefix
+  namespace: satmonitor-dev
+spec:
+  stripPrefix:
+    prefixes:
+      - /login-service
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-job-prefix
+  namespace: satmonitor-dev
+spec:
+  stripPrefix:
+    prefixes:
+      - /job-service

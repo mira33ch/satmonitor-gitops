@@ -4,3 +4,4 @@ kind: Kustomization
 
 resources:
   - ingress.yaml
+  - middlewares.yaml
