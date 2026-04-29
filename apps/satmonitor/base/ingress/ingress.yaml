@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: satmonitor
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: satmonitor-dev-strip-login-prefix@kubernetescrd,satmonitor-dev-strip-job-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: satmonitor-dev-cors@kubernetescrd,satmonitor-dev-strip-login-prefix@kubernetescrd,satmonitor-dev-strip-job-prefix@kubernetescrd
 spec:
   ingressClassName: traefik
 
