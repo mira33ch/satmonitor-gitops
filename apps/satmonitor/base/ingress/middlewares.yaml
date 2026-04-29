@@ -33,7 +33,11 @@ spec:
       - OPTIONS
       - PATCH
     accessControlAllowHeaders:
-      - "*"
+      - Content-Type
+      - Authorization
+      - Accept
+      - Origin
+      - X-Requested-With
     accessControlAllowOriginList:
       - "http://app.satmonitor.cloud"
     accessControlAllowCredentials: true
