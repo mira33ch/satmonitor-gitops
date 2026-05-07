@@ -40,6 +40,8 @@ spec:
       - X-Requested-With
     accessControlAllowOriginList:
       - "http://app.satmonitor.cloud"
+      - "http://localhost:3000"
+      - "http://localhost:4200"
     accessControlAllowCredentials: true
     accessControlMaxAge: 100
     addVaryHeader: true
