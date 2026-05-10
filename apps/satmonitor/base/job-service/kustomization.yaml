@@ -11,4 +11,4 @@ resources:
 
 images:
   - name: mariem360/job-service
-    newTag: 571450a
+    newTag: 3ebc905
