@@ -10,4 +10,4 @@ resources:
 
 images:
   - name: mariem360/frontend
-    newTag: ${IMAGE_TAG}
+    newTag: 7b5b979
