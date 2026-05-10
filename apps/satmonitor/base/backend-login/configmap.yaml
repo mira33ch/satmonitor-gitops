@@ -24,4 +24,4 @@ data:
   UPLOAD_DIR: "/app/uploads/avatars"
 
   # App
-  APP_BASE_URL: "https://api.satmonitor.cloud"
+  APP_BASE_URL: "https://app.satmonitor.cloud"
