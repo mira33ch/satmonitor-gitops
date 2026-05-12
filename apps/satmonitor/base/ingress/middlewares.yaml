@@ -39,6 +39,7 @@ spec:
       - Origin
       - X-Requested-With
     accessControlAllowOriginList:
+      - "https://app.satmonitor.cloud"
       - "http://app.satmonitor.cloud"
       - "http://localhost:3000"
       - "http://localhost:4200"
