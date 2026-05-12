@@ -25,4 +25,5 @@ data:
 
   # App
   APP_BASE_URL: "https://app.satmonitor.cloud"
+  COOKIE_DOMAIN: "satmonitor.cloud"
 
