@@ -16,7 +16,7 @@ data:
   KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/microservices-realm"
 
   # Kafka
-  KAFKA_BOOTSTRAP_SERVERS: "kafka.satmonitor-platform.svc.cluster.local:9092"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka.satmonitor-platform.svc.cluster.local:9092"
 
   # Mail (credentials + from address are in the Secret)
   MAIL_HOST: "smtp.ionos.fr"
