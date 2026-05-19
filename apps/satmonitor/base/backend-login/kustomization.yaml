@@ -5,7 +5,7 @@ namespace: satmonitor-dev
 
 resources:
   - configmap.yaml
-  - secrets.yaml
+  - sealed-secrets.yaml
   - deployment.yaml
   - service.yaml
   - uploads-pvc.yaml

@@ -9,3 +9,4 @@ resources:
   - keycloak.yaml
   - kafka.yaml
   - sonarqube.yaml
+  - sealed-secrets.yaml

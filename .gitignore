@@ -1,0 +1,3 @@
+# Plain-text secrets — never commit these.
+# Use `kubeseal` to produce sealed-secrets.yaml and commit that instead.
+**/secrets.yaml
