@@ -49,5 +49,17 @@ spec:
                 --partitions 1 \
                 --replication-factor 1
 
+              kafka-topics --bootstrap-server $BOOTSTRAP \
+                --create --if-not-exists \
+                --topic validate-unit-users \
+                --partitions 1 \
+                --replication-factor 1
+
+              kafka-topics --bootstrap-server $BOOTSTRAP \
+                --create --if-not-exists \
+                --topic unit-users-validated \
+                --partitions 1 \
+                --replication-factor 1
+
               echo "All topics created."
               kafka-topics --bootstrap-server $BOOTSTRAP --list

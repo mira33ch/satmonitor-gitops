@@ -15,10 +15,12 @@ data:
   KEYCLOAK_REALM: "microservices-realm"
   KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/microservices-realm"
 
-  # Mail
-  MAIL_HOST: "smtp.gmail.com"
-  MAIL_PORT: "587"
-  MAIL_FROM: "stakwa336@gmail.com"
+  # Kafka
+  KAFKA_BOOTSTRAP_SERVERS: "kafka.satmonitor-platform.svc.cluster.local:9092"
+
+  # Mail (credentials + from address are in the Secret)
+  MAIL_HOST: "smtp.ionos.fr"
+  MAIL_PORT: "465"
 
   # File upload
   UPLOAD_DIR: "/app/uploads/avatars"
