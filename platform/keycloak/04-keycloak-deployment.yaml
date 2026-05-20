@@ -77,6 +77,12 @@ spec:
                 secretKeyRef:
                   name: keycloak-secrets
                   key: admin_password
+            - name: KC_HOSTNAME
+              value: "auth.satmonitor.cloud"
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_PROXY
+              value: "edge"
             - name: KC_LOG_LEVEL
               value: "INFO"
 
