@@ -10,4 +10,4 @@ resources:
 
 images:
   - name: mariem360/frontend
-    newTag: 4308452
+    newTag: "4308452"
