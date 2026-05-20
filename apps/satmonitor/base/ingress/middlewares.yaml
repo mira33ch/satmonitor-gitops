@@ -43,6 +43,9 @@ spec:
       - "http://app.satmonitor.cloud"
       - "http://localhost:3000"
       - "http://localhost:4200"
+    accessControlExposeHeaders:
+      - Set-Cookie
+      - Authorization
     accessControlAllowCredentials: true
     accessControlMaxAge: 100
     addVaryHeader: true
