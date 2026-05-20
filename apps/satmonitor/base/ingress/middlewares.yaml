@@ -38,6 +38,7 @@ spec:
       - Accept
       - Origin
       - X-Requested-With
+      - userid
     accessControlAllowOriginList:
       - "https://app.satmonitor.cloud"
       - "http://app.satmonitor.cloud"
