@@ -47,4 +47,4 @@ images:
     newTag: latest
 
   - name: mariem360/frontend
-    newTag: latest
+    newTag: 0aea859
