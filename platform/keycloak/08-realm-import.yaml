@@ -1475,7 +1475,7 @@ data:
         "enabled" : true,
         "alwaysDisplayInConsole" : false,
         "clientAuthenticatorType" : "client-secret",
-        "redirectUris" : [ "http://localhost:4200/*" ],
+        "redirectUris" : [ "http://localhost:4200/*", "http://app.satmonitor.cloud/*", "http://app.satmonitor.cloud" ],
         "webOrigins" : [ "*" ],
         "notBefore" : 0,
         "bearerOnly" : false,
