@@ -36,8 +36,10 @@ spec:
           # start-dev: HTTP enabled by default, no TLS required
           # --import-realm: auto-imports from /opt/keycloak/data/import/ on first start
           args:
-            - "start-dev"
+            - "start"
             - "--import-realm"
+            - "--http-enabled=true"
+            - "--hostname-strict=false"
 
           ports:
             - name: http
