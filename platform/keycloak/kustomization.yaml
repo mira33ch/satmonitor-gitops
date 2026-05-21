@@ -11,3 +11,4 @@ resources:
   - 06-keycloak-rbac.yaml
   - 07-keycloak-ingress.yaml
   - 08-realm-import.yaml
+  - 09-keycloak-middleware.yaml

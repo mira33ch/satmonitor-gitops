@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: satmonitor-platform
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: satmonitor-platform-strip-hsts@kubernetescrd
 
 spec:
   ingressClassName: traefik
