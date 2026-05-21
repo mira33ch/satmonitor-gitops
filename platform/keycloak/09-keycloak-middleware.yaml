@@ -7,3 +7,5 @@ spec:
   headers:
     customResponseHeaders:
       Strict-Transport-Security: ""
+    customRequestHeaders:
+      X-Forwarded-Proto: "http"
