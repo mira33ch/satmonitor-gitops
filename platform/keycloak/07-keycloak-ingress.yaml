@@ -14,10 +14,10 @@ spec:
   ingressClassName: traefik
 
   rules:
-    - host: auth.satmonitor.cloud
+    - host: satmonitor.cloud
       http:
         paths:
-          - path: /
+          - path: /auth
             pathType: Prefix
             backend:
               service:

@@ -80,10 +80,12 @@ spec:
                 secretKeyRef:
                   name: keycloak-secrets
                   key: admin_password
+            - name: KC_HTTP_RELATIVE_PATH
+              value: "/auth"
             - name: KC_HOSTNAME_URL
-              value: "http://auth.satmonitor.cloud"
+              value: "http://satmonitor.cloud/auth"
             - name: KC_HOSTNAME_ADMIN_URL
-              value: "http://auth.satmonitor.cloud"
+              value: "http://satmonitor.cloud/auth"
             - name: KC_LOG_LEVEL
               value: "INFO"
 

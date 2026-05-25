@@ -6,7 +6,7 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /login-service
+      - /api/login-service
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -16,7 +16,7 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /job-service
+      - /api/job-service
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -40,8 +40,8 @@ spec:
       - X-Requested-With
       - userid
     accessControlAllowOriginList:
-      - "https://app.satmonitor.cloud"
-      - "http://app.satmonitor.cloud"
+      - "https://satmonitor.cloud"
+      - "http://satmonitor.cloud"
       - "http://localhost:3000"
       - "http://localhost:4200"
     accessControlExposeHeaders:

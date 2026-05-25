@@ -13,23 +13,10 @@ spec:
   ingressClassName: traefik
 
   rules:
-    # Frontend — app.satmonitor.cloud
-    - host: app.satmonitor.cloud
+    - host: satmonitor.cloud
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: satmonitor-frontend
-                port:
-                  number: 80
-
-    # API — api.satmonitor.cloud (path-based split with prefix stripping)
-    - host: api.satmonitor.cloud
-      http:
-        paths:
-          - path: /login-service
+          - path: /api/login-service
             pathType: Prefix
             backend:
               service:
@@ -37,10 +24,18 @@ spec:
                 port:
                   number: 8087
 
-          - path: /job-service
+          - path: /api/job-service
             pathType: Prefix
             backend:
               service:
                 name: job-service
                 port:
                   number: 8088
+
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: satmonitor-frontend
+                port:
+                  number: 80
