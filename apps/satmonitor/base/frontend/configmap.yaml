@@ -7,4 +7,4 @@ metadata:
     app.kubernetes.io/name: satmonitor-frontend
     app.kubernetes.io/part-of: satmonitor
 data:
-  API_BASE_URL: "http://satmonitor.cloud/api"
+  API_BASE_URL: "http://satmonitor.cloud:32525/api"
