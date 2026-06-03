@@ -8,9 +8,15 @@ metadata:
     app.kubernetes.io/part-of: satmonitor
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.middlewares: satmonitor-dev-cors@kubernetescrd,satmonitor-dev-strip-login-prefix@kubernetescrd,satmonitor-dev-strip-job-prefix@kubernetescrd
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - satmonitor.cloud
+      secretName: satmonitor-tls
 
   rules:
     - host: satmonitor.cloud

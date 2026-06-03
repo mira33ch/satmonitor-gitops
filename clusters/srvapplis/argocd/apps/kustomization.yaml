@@ -10,3 +10,5 @@ resources:
   - kafka.yaml
   - sonarqube.yaml
   - sealed-secrets.yaml
+  - cert-manager.yaml
+  - cert-manager-config.yaml
