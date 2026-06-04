@@ -8,9 +8,9 @@ metadata:
     app.kubernetes.io/part-of: satmonitor
 data:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://satmonitor-postgres.satmonitor-dev.svc.cluster.local:5432/satmonitor_db"
-  KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/microservices-realm"
+  KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/auth/realms/microservices-realm"
   SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka.satmonitor-platform.svc.cluster.local:9092"
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/realms/microservices-realm/protocol/openid-connect/certs"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/auth/realms/microservices-realm/protocol/openid-connect/certs"
   JWT_AUTH_CONVERTER_RESOURCE_ID: "login-service"
   JWT_AUTH_CONVERTER_PRINCIPLE_ATTRIBUTE: "preferred_username"
   PROJECT_SERVICE_URL: "http://login-service.satmonitor-dev.svc.cluster.local:8087"

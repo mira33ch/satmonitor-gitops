@@ -13,7 +13,7 @@ data:
   # Keycloak
   KEYCLOAK_SERVER_URL: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/auth"
   KEYCLOAK_REALM: "microservices-realm"
-  KEYCLOAK_ISSUER_URI: "http://satmonitor.cloud/auth/realms/microservices-realm"
+  KEYCLOAK_ISSUER_URI: "http://satmonitor.cloud:32525/auth/realms/microservices-realm"
   KEYCLOAK_JWK_SET_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/auth/realms/microservices-realm/protocol/openid-connect/certs"
 
   # Kafka
