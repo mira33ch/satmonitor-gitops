@@ -42,6 +42,7 @@ spec:
     accessControlAllowOriginList:
       - "https://satmonitor.cloud"
       - "http://satmonitor.cloud"
+      - "http://satmonitor.cloud:32525"
       - "http://localhost:3000"
       - "http://localhost:4200"
     accessControlExposeHeaders:
