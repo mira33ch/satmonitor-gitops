@@ -36,7 +36,7 @@ spec:
           # start-dev: HTTP enabled by default, no TLS required
           # --import-realm: auto-imports from /opt/keycloak/data/import/ on first start
           args:
-            - "start"
+            - "start-dev"
             - "--import-realm"
             - "--http-enabled=true"
             - "--hostname-strict=false"
@@ -88,8 +88,6 @@ spec:
               value: "http://satmonitor.cloud:32525/auth"
             - name: KC_PROXY_HEADERS
               value: "xforwarded"
-            - name: KC_PROXY
-              value: "edge"
             - name: KC_HOSTNAME_STRICT_HTTPS
               value: "false"
             - name: KC_LOG_LEVEL
