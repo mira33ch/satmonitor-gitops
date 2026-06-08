@@ -2154,7 +2154,7 @@ data:
         "fromDisplayName" : "",
         "user" : "contact_sat@modelis-france.com"
       },
-      "loginTheme" : "my-app-theme",
+      "loginTheme" : "keycloak",
       "accountTheme" : "",
       "adminTheme" : "",
       "emailTheme" : "my-email-theme-fr",
