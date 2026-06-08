@@ -86,6 +86,8 @@ spec:
               value: "http://satmonitor.cloud:32525/auth"
             - name: KC_HOSTNAME_ADMIN_URL
               value: "http://satmonitor.cloud:32525/auth"
+            - name: KC_PROXY_HEADERS
+              value: "xforwarded"
             - name: KC_LOG_LEVEL
               value: "INFO"
 
