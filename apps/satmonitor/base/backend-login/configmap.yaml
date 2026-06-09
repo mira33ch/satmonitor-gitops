@@ -30,3 +30,8 @@ data:
   APP_BASE_URL: "http://satmonitor.cloud:32525"
   COOKIE_DOMAIN: "satmonitor.cloud"
 
+  # Cookie — override hardcoded k8s profile values for plain HTTP deployment
+  APP_COOKIE_SECURE: "false"
+  APP_COOKIE_SAME_SITE: "Lax"
+  APP_COOKIE_PATH: "/"
+
