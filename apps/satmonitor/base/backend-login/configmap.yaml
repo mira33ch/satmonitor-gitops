@@ -27,6 +27,6 @@ data:
   UPLOAD_DIR: "/app/uploads/avatars"
 
   # App
-  APP_BASE_URL: "http://satmonitor.cloud:32525/api/login-service"
+  APP_BASE_URL: "http://satmonitor.cloud:32525"
   COOKIE_DOMAIN: "satmonitor.cloud"
 
