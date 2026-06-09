@@ -12,4 +12,4 @@ resources:
 
 images:
   - name: mariem360/login-service
-    newTag: 4a6e458
+    newTag: 189c8c6
