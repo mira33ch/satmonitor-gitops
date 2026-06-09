@@ -42,6 +42,16 @@ spec:
             - "--hostname-strict=false"
             - "--hostname-strict-https=false"
 
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    until /opt/keycloak/bin/kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD" 2>/dev/null; do sleep 5; done
+                    /opt/keycloak/bin/kcadm.sh update realms/master -s sslRequired=NONE --server http://localhost:8080/auth --realm master
+
           ports:
             - name: http
               containerPort: 8080
