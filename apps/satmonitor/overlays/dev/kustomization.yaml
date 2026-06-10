@@ -41,7 +41,7 @@ patches:
 
 images:
   - name: mariem360/login-service
-    newTag: 5922112
+    newTag: "5922112"
 
   - name: mariem360/job-service
     newTag: latest
