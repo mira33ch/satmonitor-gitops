@@ -5,12 +5,12 @@ namespace: satmonitor-dev
 
 resources:
   - configmap.yaml
-  # TODO: seal with kubeseal (see backend-login/job-service) and switch this
-  # to sealed-secrets.yaml once the cluster's sealed-secrets public cert is
-  # available.
-  - secrets.yaml
   - deployment.yaml
   - service.yaml
+  # NOTE: notification-service-secrets is created out-of-band via `kubectl create secret`
+  # (see secrets.yaml, gitignored — not committed by repo policy).
+  # TODO: switch to a committed sealed-secrets.yaml (see backend-login/job-service)
+  # once kubeseal + the cluster's sealed-secrets public cert are available.
 
 images:
   - name: mariem360/notification-service
