@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-service
+  namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: project-service
+    app.kubernetes.io/part-of: satmonitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: project-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: project-service
+        app.kubernetes.io/part-of: satmonitor
+    spec:
+      containers:
+        - name: project-service
+          image: mariem360/project-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8089
+              name: http
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SERVER_PORT
+              value: "8089"
+          envFrom:
+            - configMapRef:
+                name: project-service-config
+            - secretRef:
+                name: project-service-secrets
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi

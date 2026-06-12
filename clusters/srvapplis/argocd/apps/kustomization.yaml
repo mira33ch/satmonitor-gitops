@@ -5,6 +5,9 @@ resources:
   - satmonitor-infra.yaml
   - login-service.yaml
   - job-service.yaml
+  - alert-service.yaml
+  - notification-service.yaml
+  - project-service.yaml
   - frontend.yaml
   - keycloak.yaml
   - kafka.yaml

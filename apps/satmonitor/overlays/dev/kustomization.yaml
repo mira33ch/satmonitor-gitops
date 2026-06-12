@@ -7,6 +7,9 @@ resources:
   - ../../base
   - ../../base/backend-login
   - ../../base/job-service
+  - ../../base/alert-service
+  - ../../base/notification-service
+  - ../../base/project-service
   - ../../base/frontend
 
 labels:
@@ -44,7 +47,16 @@ images:
     newTag: "5922112"
 
   - name: mariem360/job-service
-    newTag: latest
+    newTag: 516011b
+
+  - name: mariem360/alert-service
+    newTag: f073ff7
+
+  - name: mariem360/notification-service
+    newTag: 4827ca2
+
+  - name: mariem360/project-service
+    newTag: 7151cd7
 
   - name: mariem360/frontend
     newTag: 5aca171

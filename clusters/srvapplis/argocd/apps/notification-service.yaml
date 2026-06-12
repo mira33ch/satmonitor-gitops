@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notification-service
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: satmonitor
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/mira33ch/satmonitor-gitops.git
+    targetRevision: main
+    # Jenkins updates images[0].newTag in this directory after every build
+    path: apps/satmonitor/base/notification-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: satmonitor-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false

@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: satmonitor
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
-    traefik.ingress.kubernetes.io/router.middlewares: satmonitor-dev-cors@kubernetescrd,satmonitor-dev-strip-login-prefix@kubernetescrd,satmonitor-dev-strip-job-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: satmonitor-dev-cors@kubernetescrd,satmonitor-dev-strip-login-prefix@kubernetescrd,satmonitor-dev-strip-job-prefix@kubernetescrd,satmonitor-dev-strip-alert-prefix@kubernetescrd,satmonitor-dev-strip-notification-prefix@kubernetescrd,satmonitor-dev-strip-project-prefix@kubernetescrd
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: traefik
@@ -36,6 +36,40 @@ spec:
                 name: job-service
                 port:
                   number: 8088
+
+          - path: /api/alert-service
+            pathType: Prefix
+            backend:
+              service:
+                name: alert-service
+                port:
+                  number: 8082
+
+          - path: /api/notification-service
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 8085
+
+          - path: /api/project-service
+            pathType: Prefix
+            backend:
+              service:
+                name: project-service
+                port:
+                  number: 8089
+
+          # notification-service WebSocket endpoint — served at this exact
+          # path by the app, so no stripPrefix middleware applies to it
+          - path: /ws-notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 8085
 
           - path: /
             pathType: Prefix
