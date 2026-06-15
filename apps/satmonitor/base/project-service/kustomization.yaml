@@ -5,12 +5,9 @@ namespace: satmonitor-dev
 
 resources:
   - configmap.yaml
+  - sealed-secrets.yaml
   - deployment.yaml
   - service.yaml
-  # NOTE: project-service-secrets is created out-of-band via `kubectl create secret`
-  # (see secrets.yaml, gitignored — not committed by repo policy).
-  # TODO: switch to a committed sealed-secrets.yaml (see backend-login/job-service)
-  # once kubeseal + the cluster's sealed-secrets public cert are available.
 
 images:
   - name: mariem360/project-service
