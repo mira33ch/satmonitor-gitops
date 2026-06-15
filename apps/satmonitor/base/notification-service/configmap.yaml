@@ -8,7 +8,11 @@ metadata:
     app.kubernetes.io/part-of: satmonitor
 data:
   # Keycloak (wired for future use — anyRequest().permitAll() for now)
-  KEYCLOAK_ISSUER_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/auth/realms/microservices-realm"
+  # NOTE: Keycloak's KC_HOSTNAME_URL is satmonitor.cloud:32525, so every JWT's
+  # `iss` claim is the public URL. ISSUER_URI must match it (for issuer
+  # validation); JWK_SET_URI stays internal to avoid hairpin NAT for key fetch.
+  KEYCLOAK_ISSUER_URI: "http://satmonitor.cloud:32525/auth/realms/microservices-realm"
+  KEYCLOAK_JWK_SET_URI: "http://keycloak.satmonitor-platform.svc.cluster.local:8080/auth/realms/microservices-realm/protocol/openid-connect/certs"
   JWT_AUTH_CONVERTER_RESOURCE_ID: "notification-service"
   JWT_AUTH_CONVERTER_PRINCIPLE_ATTRIBUTE: "preferred_username"
 
