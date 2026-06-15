@@ -11,6 +11,7 @@ resources:
   - ../../base/notification-service
   - ../../base/project-service
   - ../../base/frontend
+  - ../../base/geoserver
 
 labels:
   - pairs:

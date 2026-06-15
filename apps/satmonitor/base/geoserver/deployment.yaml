@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geoserver
+  namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: geoserver
+    app.kubernetes.io/part-of: satmonitor
+spec:
+  replicas: 1
+  # Recreate (not RollingUpdate): two GeoServer pods must never write to the
+  # shared NFS data dir / GWC disk-quota DB at the same time.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: geoserver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: geoserver
+        app.kubernetes.io/part-of: satmonitor
+    spec:
+      containers:
+        - name: geoserver
+          # Matches infra/geoserver_data/ in satmonitor-backend-projet (docker-compose.yml)
+          image: kartoza/geoserver:2.23.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: geoserver-config
+          livenessProbe:
+            httpGet:
+              path: /geoserver/web/
+              port: http
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /geoserver/web/
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          volumeMounts:
+            - name: geoserver-data
+              mountPath: /opt/geoserver/data_dir
+      volumes:
+        - name: geoserver-data
+          persistentVolumeClaim:
+            claimName: geoserver-data

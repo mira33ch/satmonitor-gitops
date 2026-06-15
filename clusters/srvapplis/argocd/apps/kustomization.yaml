@@ -8,6 +8,7 @@ resources:
   - alert-service.yaml
   - notification-service.yaml
   - project-service.yaml
+  - geoserver.yaml
   - frontend.yaml
   - keycloak.yaml
   - kafka.yaml

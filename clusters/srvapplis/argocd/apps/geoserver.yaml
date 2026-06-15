@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: geoserver
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: satmonitor
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/mira33ch/satmonitor-gitops.git
+    targetRevision: main
+    path: apps/satmonitor/base/geoserver
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: satmonitor-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false

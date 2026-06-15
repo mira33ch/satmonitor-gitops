@@ -15,6 +15,7 @@ resources:
   - ../../base/notification-service
   - ../../base/project-service
   - ../../base/frontend
+  - ../../base/geoserver
 
 patchesJson6902:
   - target:

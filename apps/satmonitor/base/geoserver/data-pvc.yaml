@@ -1,0 +1,19 @@
+# NOTE: this PVC starts empty. The GeoServer data dir (infra/geoserver_data/
+# from satmonitor-backend-projet — workspaces, layers, security config) is
+# seeded manually via `kubectl cp` after first deploy, not by an automated job
+# (that repo is private, so no git credentials are stored in-cluster).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: geoserver-data
+  namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: geoserver
+    app.kubernetes.io/part-of: satmonitor
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-client
+  resources:
+    requests:
+      storage: 50Gi

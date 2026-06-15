@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geoserver-config
+  namespace: satmonitor-dev
+  labels:
+    app.kubernetes.io/name: geoserver
+    app.kubernetes.io/part-of: satmonitor
+data:
+  GEOSERVER_DATA_DIR: "/opt/geoserver/data_dir"
+  GEOWEBCACHE_CACHE_DIR: "/opt/geoserver/data_dir/gwc"
+  INITIAL_MEMORY: "512M"
+  MAXIMUM_MEMORY: "1536M"
+
+  # Matches infra/geoserver_data/security/ defaults (docker-compose.yml uses the
+  # same values). These are GeoServer's stock admin/geoserver credentials —
+  # rotate via a sealed secret before this is exposed beyond satmonitor-dev.
+  GEOSERVER_ADMIN_USER: "admin"
+  GEOSERVER_ADMIN_PASSWORD: "geoserver"
