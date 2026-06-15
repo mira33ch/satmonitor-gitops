@@ -23,3 +23,6 @@ data:
 
   # Other services
   LOGIN_SERVICE_URL: "http://login-service.satmonitor-dev.svc.cluster.local:8087"
+
+  # Public base URL used for links generated in emails
+  APP_BASE_URL: "http://satmonitor.cloud:32525"
