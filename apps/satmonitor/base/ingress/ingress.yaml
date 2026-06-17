@@ -21,6 +21,17 @@ spec:
     - host: satmonitor.cloud
       http:
         paths:
+          # More specific than /api/login-service — routes WebSocket to
+          # notification-service. strip-login-prefix middleware strips
+          # /api/login-service so notification-service receives /ws-notifications.
+          - path: /api/login-service/ws-notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 8085
+
           - path: /api/login-service
             pathType: Prefix
             backend:
