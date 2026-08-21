@@ -22,7 +22,7 @@ spec:
             - name: PROVISIONER_NAME
               value: satmonitor.io/nfs-client
             - name: NFS_SERVER
-              value: "192.168.1.39"
+              value: "192.168.1.99"
             - name: NFS_PATH
               value: "/exports/k3s"
           volumeMounts:
@@ -31,5 +31,5 @@ spec:
       volumes:
         - name: nfs-root
           nfs:
-            server: "192.168.1.39"
+            server: "192.168.1.99"
             path: "/exports/k3s"
