@@ -16,3 +16,5 @@ resources:
   - sealed-secrets.yaml
   - cert-manager.yaml
   - cert-manager-config.yaml
+  - kube-prometheus-stack.yaml
+  - loki.yaml
