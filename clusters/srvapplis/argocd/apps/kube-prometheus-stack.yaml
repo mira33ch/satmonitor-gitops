@@ -21,14 +21,14 @@ spec:
 
         prometheus:
           prometheusSpec:
-            retention: 5d
+            retention: 2d
             resources:
               requests:
-                cpu: 100m
-                memory: 256Mi
+                cpu: 50m
+                memory: 128Mi
               limits:
-                cpu: 500m
-                memory: 512Mi
+                cpu: 200m
+                memory: 256Mi
             storageSpec:
               volumeClaimTemplate:
                 spec:
@@ -46,11 +46,11 @@ spec:
             size: 1Gi
           resources:
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 30m
+              memory: 96Mi
             limits:
-              cpu: 200m
-              memory: 256Mi
+              cpu: 100m
+              memory: 160Mi
           additionalDataSources:
             - name: Loki
               type: loki
@@ -61,20 +61,20 @@ spec:
         kubeStateMetrics:
           resources:
             requests:
-              cpu: 20m
-              memory: 64Mi
+              cpu: 10m
+              memory: 32Mi
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 50m
+              memory: 64Mi
 
         prometheus-node-exporter:
           resources:
             requests:
-              cpu: 20m
-              memory: 32Mi
+              cpu: 10m
+              memory: 24Mi
             limits:
-              cpu: 100m
-              memory: 64Mi
+              cpu: 50m
+              memory: 48Mi
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
